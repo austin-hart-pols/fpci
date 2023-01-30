@@ -11,7 +11,7 @@ output:
   options(htmltools.dir.version = FALSE)
   knitr::opts_chunk$set(
     message=F, warning=F, eval=T, echo = F, 
-    fig.align = 'center'
+    fig.align = 'center', dev = 'svg'
   )
 
   library(tidyverse)  
@@ -53,20 +53,23 @@ output:
 - Cohen and Dupas (2010)
 - Keele et al. (2021)
 
-For each study:
+
+For each study  
+
 - What is the motivating question/theory?
 - What effect are they trying to estimate?
 - Describe the study design
-- Discuss the internal/external validity of their findings
+- Discuss the internal and external validity of their findings
 
 
 # Fundamental Problem of Causal Inference
 
 ## Define a causal effect
 
-For an individual, $i$, under study, we could observe:
-- $Y_{i,A}$: $i$'s response to $Treat = A$
-- $Y_{i,B}$: $i$'s response to $Treat = B$
+For an individual, $i$, under study, we could observe 
+
+- $Y_{i,A}=$ $i$'s response to $Treat = A$
+- $Y_{i,B}=$ $i$'s response to $Treat = B$
 
 Calculate the causal effect of $Treat$ on $Y$ as: 
 $$
