@@ -10,8 +10,8 @@ output:
 ```{r setup, include=FALSE}
   options(htmltools.dir.version = FALSE)
   knitr::opts_chunk$set(
-    message=F, warning=F, eval=T, echo = F, 
-    fig.align = 'center', dev = 'svg'
+    message=F, warning=F, eval=T, echo=F, 
+    fig.align = 'center', dev = "svglite"
   )
 
   library(tidyverse)  
@@ -102,12 +102,12 @@ $$
 - Must rely on causal INFERENCE
 
 
-## ## Approximating a counterfactual?  
+## Approximating a counterfactual?  
 
 ### Scientific solutions
 1. Compare response across two units, $i$ and $j$: 
 $$Y_{i,A} - Y_{j,B}$$
-2. Expose unit to both in sequence: 
+2. Expose unit to both treatments in sequence: 
 $$Y_{i,A,t} - Y_{i,B,t+1}$$
 
 
