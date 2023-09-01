@@ -1,147 +1,142 @@
 ---
-title: "Causes, inferences, and peril"
+title: "Inferences"
+subtitle: "and how to assess them"
 author: "Austin Hart"
-output: 
-  ioslides_presentation:
-    widescreen: true
-    css: iocustom.css
+institute: "American University"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, rladies, rladies-fonts]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
 ---
 
-```{r setup, include=FALSE}
-  options(htmltools.dir.version = FALSE)
-  knitr::opts_chunk$set(
-    message=F, warning=F, eval=T, echo=F, 
-    fig.align = 'center', dev = "svglite"
-  )
 
-  library(tidyverse)  
-  library(knitr)
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, 
+  fig.align = 'center', dev='svglite', fig.path = "images/"
+)
+  
+  library(tidyverse)
 ```
 
+class: inverse, middle, left
 
-# Thinking scientfically
+# Thinking scientfically  
 
-## The process
+
+---
+# The process  
 
 - Causal questions
+
+- Theory and hypotheses
   - **Theory** as baseline
   - **Hypotheses** as specific predictions
   
-- Observation
+- Data gathering
   - Research design
   - Data collection
   
 - Analysis
   
-- Inference (not answers, truth, etc.)
+- Inference 
   
   
-## Inferences and validity
+  
+---
+# Inferences and validity
 
-> What is the effect of exposure to X on outcome Y?  
-> Based on my study, I can say...
+> I gathered data for a study. For the cases in my sample, I find a relationship between two variables, X and Y.
 
-- **Statistical inference:** formal judgment about the parameters of a population; typically for differentiating coincidental from systematic correlations.  
+- **Causal inference:** attribution of an effect to a cause *within a study*. I infer that exposing the units in my sample to X caused a change in Y.
 
-- **Causal inference (internal):** attribution of an effect to a cause based on evidence *from the study*.
-
-- **Generalization (external):** inference about how well the observed effect extends to other places, times, treatments, outcomes, and/or units *beyond the study*.
-
-
-## Consider two examples
-
-- Cohen and Dupas (2010)
-- Keele et al. (2021)
+- **External validity inference:** extending the results *beyond the study* to other:  
+  - populations  
+  - treatments  
+  - outcomes  
+  - contexts  
 
 
-For each study  
-
-- What is the motivating question/theory?
-- What effect are they trying to estimate?
-- Describe the study design
-- Discuss the internal and external validity of their findings
-
+---
+class: inverse, middle, left
 
 # Fundamental Problem of Causal Inference
 
-## Define a causal effect
+
+---
+# Define a causal effect
 
 For an individual, $i$, under study, we could observe 
 
-- $Y_{i,A}=$ $i$'s response to $Treat = A$
-- $Y_{i,B}=$ $i$'s response to $Treat = B$
+- $Y_{i,T=1}$, $i$'s response after treatment $(T=1)$
+- $Y_{i,T=0}$, $i$'s response after control $(T=0)$
 
-Calculate the causal effect of $Treat$ on $Y$ as: 
-$$
- = Y_{i,A} - Y_{i,B}
-$$
+Calculate the causal effect of treatment on outcome $Y$ as:  
 
-## Thinking carefully about treatment effects
+$$Y_{i,T=1} - Y_{i,T=0}$$
 
-$$
- = Y_{i,A} - Y_{i,B}
-$$
 
-- "effect of treatment" is always comparative
-  - "The effect of $A$ (compared to $B$) on Y"
-  - The referent changes everything
+---
+# Why causality is unobservable
 
-- "cause" requires a counterfactual
-  - The unseen potential outcome
-  - What *would have happened if* the unit were exposed instead to $T=?$
-  
-
-## Why causality is unobservable
-
-> We can observe a unit's response to treatment $(Y_{i,A})$. 
-> Or... we can observe the response of an untreated unit $(Y_{i,B})$. 
+> We can observe a unit's response to treatment  $(Y_{i,T=1})$. 
+> Or... we can observe the response without treatment $(Y_{i,T=0})$. 
 > We cannot observe both for the same unit at the same time.  
 
-- We can record, at most, one potential outcome.
+- We can observe, at most, one of two potential outcomes.  
+
+- The unobserved outcome is called the counterfactual.  
+
 - **IMPOSSIBLE to observe a causal effect directly**
-- Must rely on causal INFERENCE
 
 
-## Approximating a counterfactual?  
+---
+# Recovering the counterfactual
 
-### Scientific solutions
-1. Compare response across two units, $i$ and $j$: 
-$$Y_{i,A} - Y_{j,B}$$
-2. Expose unit to both treatments in sequence: 
-$$Y_{i,A,t} - Y_{i,B,t+1}$$
+### Scientific solutions  
 
+- Compare response across two units, $i$ and $j$: $Y_{i,T=1} - Y_{j,T=0}$  
+- Expose unit to both treatments in sequence: $Y_{i,T=1,t} - Y_{i,T=0,t+1}$    
 
-> What assumptions do we need for these comparisons to be valid?
-
-
-## Approximating a counterfactual? 
 
 ### Statistical solution
-- Estimate the **Average Treatment Effect** over a large number of units.
-  - Average outcome among the treated, $\bar{Y_A}$ 
-  - Average outcome among untreated, $\bar{Y_B}$
 
-$$ATE = \bar{Y_A}-\bar{Y_B}$$
+- Estimate the **Average Treatment Effect** over a large number of sampled units.
 
-> What assumptions must we make for this comparison to be valid?
+$$SATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=0]$$
 
+
+---
+class: inverse, middle, left
 
 # FPCI in practice
 
-## Ruling out alternative explanations
 
-> I claim that, across nations, wealth (X) increases life expectancy (Y). Is this a valid causal claim?
+---
+# Establishing internal validity 
 
-### Criteria for internal validity
-- Demonstrate correlation between $X$ and $Y$
-- Rule out random coincidence: causal mechanism
-- Rule out bias due to reverse causality $(Y \rightarrow X)$
-- Rule out bias due to confounding $(X \leftarrow Z \rightarrow Y)$
+### Conclude that $X$ is causing $Y$ if you can:  
+
+- Specify a plausible causal mechanism  
+
+- Demonstrate correlation between $X$ and $Y$   
+
+- Rule out bias due to reverse causality   
+
+- Rule out bias due to confounding   
 
 
-## Correlation
 
-> Correlation tells us about the tendency of two features of the world (variables) to occur together or not.
+---
+# Correlation
+
+> Correlation tells us about the tendency of two features of the world (variables) to occur together.
 
 - **Positive correlation**: two features of the world (or variables) tend to occur together. 
 
@@ -149,10 +144,10 @@ $$ATE = \bar{Y_A}-\bar{Y_B}$$
 
 - **Independence (no correlation)**: the occurrence of one feature is unrelated to the presence or absence of the other.
 
+---
+# Example 1
 
-## Example 1
-
-```{r gapplot, fig.dim=c(5,3)}
+```{r gapplot, fig.dim=c(6,4)}
 gapminder::gapminder %>%
   filter(year == 1997) %>%
   ggplot(aes(x = gdpPercap, y = lifeExp)) +
@@ -168,9 +163,10 @@ gapminder::gapminder %>%
 
 ```
 
-## Example 2
+---
+# Example 2
 
-```{r gapplot2, fig.dim=c(5,3)}
+```{r gapplot2, fig.dim=c(6,4)}
 gapminder::gapminder %>%
   filter(year == 1997) %>%
   ggplot(aes(x = pop, y = lifeExp)) +
@@ -186,42 +182,23 @@ gapminder::gapminder %>%
 
 ```
 
-## Bias due to reverse causality
+---
+# Bias due to reverse causality
 
 - Exists when the outcome is acting on the proposed cause. $X \leftrightarrow Y$
 - If $Y$ determines exposure to $X$, then the correlation reflects the effect of $Y$ on $X$ in full or in part.
 
-Could life expectancy be acting on GDP?
-```{r reverse, fig.dim=c(5,3)}
-gapminder::gapminder %>%
-  filter(year == 1997) %>%
-  ggplot(aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(shape = 21, color = 'red') +
-  geom_smooth(method = 'loess', se = F, color = 'black') +
-  labs(y = 'GDP per capita, $',
-       x = 'Life expectancy, years',
-       title = 'Life expectancy drives wealth?',
-       caption = 'Data: Gapminder, 1997') +
-  scale_y_log10(labels = scales::label_dollar()) +
-  theme_minimal(base_size = 10) +
-  theme(panel.grid.minor = element_blank())
-
-```
+> Could life expectancy be acting on GDP?
 
 
-## Bias due to confounding
-
-> If X and Y are correlated, could it be the result of a third variable, Z, acting on both?
+---
+# Bias due to confounding
 
 
 - Selection/confounding bias exists when:
   - Treatment groups differ systematically by some factor, $Z$
   - *AND* $Z$ is a cause of $Y$
-- In this case, the estimated effect of $X$ on $Y$ is biased due to the confounding effect of $Z$.
+- In this case, the estimated effect of $X$ on $Y$ erroneously captures the influence of $Z$.
 
-
-## Back to the readings
-
-1. How do the designs attempt to maximize internal validity?
-2. What is the effect of random assignment in the Cohen and Dupas study?
+> Is there a variable related to GDP that might also, independently, impact life expectancy?
 
